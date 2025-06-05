@@ -1,0 +1,42 @@
+volumes:
+  postgres_data:
+  minio_data:
+
+services:
+  app:
+    container_name: onlyoffice-app
+    build:
+      context: ./backend
+      dockerfile: ../docker/Dockerfile.api
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/app
+    ports:
+      - 8080:8080
+    command: /start.sh
+    entrypoint: /entrypoint.sh
+    restart: on-failure
+    env_file: ./docker/.envs/.env 
+
+
+  db:
+    container_name: onlyoffice-db
+    image: postgres:15-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file: ./docker/.envs/.env.db
+
+  minio:
+    image: minio/minio
+    container_name: onlyoffice-minio
+    hostname: "minio"
+    volumes:
+      - minio_data:/minio_files
+    ports:
+      - 9010:9010
+      - 9011:9011
+    command: 'minio server /minio_files --address ":9010" --console-address ":9011"'
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin

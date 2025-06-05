@@ -1,0 +1,34 @@
+FROM python:3.10.4-slim as python
+
+# set environment variables
+ENV PYTHONDONTWRITEBYTECODE 1
+ENV PYTHONUNBUFFERED 1
+
+# set work directory
+WORKDIR /app
+
+# install dependencies
+RUN apt-get update && apt-get install --no-install-recommends -y \
+    libpq-dev \
+    netcat  \
+    make  \
+    && apt-get clean
+
+# install dependencies
+RUN pip install --upgrade pip
+RUN pip install "psycopg[binary, pool]"
+COPY ./requirements .
+
+# Allow to install dev dependencies
+ARG BUILD_ENV=dev
+RUN bash -c 'pip install -r base.txt;'
+
+# Copy project
+COPY . .
+
+# Copy scripts
+COPY ./scripts/ /
+
+# Fix windows docker bug, convert CRLF to LF
+RUN sed -i 's/\r$//g' /start.sh && chmod +x /start.sh && \
+    sed -i 's/\r$//g' /entrypoint.sh && chmod +x /entrypoint.sh
