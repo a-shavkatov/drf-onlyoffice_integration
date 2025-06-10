@@ -32,7 +32,7 @@ SECRET_KEY = "django-insecure-!xv)d*o+2iket1^agaa&9$-f-)yt=qap3nan@sd!a$mk(2j-yc
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+CORS_ALLOW_ALL_ORIGINS = True
 
 # Application definition
 
@@ -52,6 +52,7 @@ THIRD_PARTY_APPS = [
     "rest_framework_simplejwt",
     "drf_spectacular",
     "minio_storage",
+    "corsheaders",
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -62,6 +63,7 @@ MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -195,7 +197,7 @@ from datetime import timedelta
 
 SIMPLE_JWT = {"ACCESS_TOKEN_LIFETIME": timedelta(days=1)}
 
-SITE_URL = "http://localhost:8080"
+SITE_URL = "http://192.168.20.35:8080"
 
 ONLYOFFICE_CONFIG = {
     "JWT_SECRET": env("ONLYOFFICE_JWT_SECRET", default="supersecret"),

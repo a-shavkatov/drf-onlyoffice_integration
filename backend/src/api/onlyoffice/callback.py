@@ -3,11 +3,11 @@ from rest_framework.mixins import CreateModelMixin
 from rest_framework.response import Response
 
 from src.apps.onlyoffice.serializers import CallBackSerializer
-from src.apps.onlyoffice.permissions import OnlyOfficePermission
+from src.apps.onlyoffice.auth import OnlyOfficeAuthentication
 
 
 class CallbackViewSet(GenericViewSet, CreateModelMixin):
-    permission_classes = [OnlyOfficePermission]
+    authentication_classes = [OnlyOfficeAuthentication]
     serializer_class = CallBackSerializer
 
     def create(self, request, *args, **kwargs):
