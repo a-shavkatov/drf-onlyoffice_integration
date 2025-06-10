@@ -11,7 +11,8 @@ class OnlyOfficeJWT:
     @classmethod
     def generate_token(cls, payload: dict) -> str:
         expires_at = timezone.localtime() + settings.ONLYOFFICE_CONFIG["JWT_EXPIRE_AT"]
-        token_data = {**payload, "exp": expires_at}
+        token_data = {**payload, "exp": expires_at, "iat": timezone.localtime()}
+
         return jwt.encode(token_data, cls.jwt_secret, algorithm=cls.algorithm)
 
     @classmethod

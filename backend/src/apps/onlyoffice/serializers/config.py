@@ -41,7 +41,7 @@ class ConfigSerializer(serializers.Serializer):
                 "fileType": "docx",
                 "key": str(instance.key),
                 "title": instance.title,
-                "url": f"{get_file_presigned_url(instance.file.name)}",
+                "url": get_file_presigned_url(instance.file.name),
             },
             "editorConfig": {
                 "callbackUrl": callback_url,
