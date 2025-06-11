@@ -6,7 +6,7 @@ from src.apps.onlyoffice.utils import OnlyOfficeJWT
 
 class OnlyOfficeAuthentication(authentication.BaseAuthentication):
     def authenticate(self, request):
-        auth_header = request.headers.get("Authorization")
+        auth_header = request.headers.get("AuthorizationJwt")
         if not auth_header:
             raise exceptions.AuthenticationFailed("Authorization header not found")
 

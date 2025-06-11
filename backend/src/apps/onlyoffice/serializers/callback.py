@@ -62,11 +62,11 @@ class CallBackSerializer(serializers.Serializer):
 
         response = requests.get(validated_data["url"])
         if response.status_code == 200:
-            document.file.save(
-                os.path.basename(document.file.name),
-                ContentFile(response.content),
-                save=True,
+            document.file = ContentFile(
+                response.content, name=os.path.basename(document.file.name)
             )
+            document.version += 1
+            document.save()
 
             return {"error": ResponseStatuses.SUCCESS}
 

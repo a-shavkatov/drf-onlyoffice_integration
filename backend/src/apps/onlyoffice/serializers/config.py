@@ -42,6 +42,7 @@ class ConfigSerializer(serializers.Serializer):
                 "key": str(instance.key),
                 "title": instance.title,
                 "url": get_file_presigned_url(instance.file.name),
+                "version": instance.version,
             },
             "editorConfig": {
                 "callbackUrl": callback_url,
