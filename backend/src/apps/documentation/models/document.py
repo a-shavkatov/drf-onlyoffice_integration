@@ -15,6 +15,7 @@ class Document(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     owner = models.ForeignKey("user.User", on_delete=models.CASCADE)
+    version = models.IntegerField(default=1)
 
     def __str__(self):
         return self.title

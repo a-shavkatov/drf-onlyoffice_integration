@@ -18,6 +18,11 @@ class OnlyOfficeJWT:
     @classmethod
     def verify_token(cls, token: str) -> dict | None:
         try:
-            return jwt.decode(token, cls.jwt_secret, algorithms=[cls.algorithm])
+            return jwt.decode(
+                token,
+                cls.jwt_secret,
+                algorithms=[cls.algorithm],
+                options={"verify_iat": False},
+            )
         except jwt.InvalidTokenError as e:
             return None
